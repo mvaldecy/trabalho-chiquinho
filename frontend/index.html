@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCM — Multiplicação Ótima de Matrizes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <header>
+    <h1>MCM — Multiplicação Ótima de Matrizes</h1>
+    <span class="badge">PAA · ICEV 2026</span>
+  </header>
+
+  <!-- ── Navegação de abas ── -->
+  <nav class="tab-nav">
+    <button class="tab-btn" data-tab="introducao">Introdução</button>
+    <button class="tab-btn" data-tab="teoria">Teoria</button>
+    <button class="tab-btn" data-tab="complexidade">Complexidade</button>
+    <button class="tab-btn" data-tab="demo">Demo Interativa</button>
+    <button class="tab-btn" data-tab="graficos">Gráficos Empíricos</button>
+  </nav>
+
+  <!-- ════════════════════════════════════════
+       ABA: Demo Interativa
+  ════════════════════════════════════════ -->
+  <section id="tab-demo" class="tab-content">
+
+    <div class="demo-grid">
+
+      <!-- Coluna esquerda: entrada + velocidade -->
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+        <div class="card">
+          <h2>Configurar Matrizes</h2>
+
+          <div class="presets">
+            <span>Exemplos:</span>
+            <div id="demo-presets"></div>
+          </div>
+
+          <div class="input-row">
+            <input
+              id="demo-input"
+              type="text"
+              placeholder="Ex: 10  30  5  60  10"
+              autocomplete="off"
+            />
+            <button id="demo-run" class="btn-primary">Executar</button>
+          </div>
+
+          <div id="demo-dims-info" class="dims-info">
+            Insira as dimensões das matrizes separadas por espaço
+          </div>
+          <div id="demo-error" class="error-msg"></div>
+        </div>
+
+        <div class="card">
+          <h2>Comparação de Velocidade</h2>
+          <div id="speed-section"></div>
+        </div>
+
+      </div>
+
+      <!-- Coluna direita: tabela + resultado -->
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+
+        <div class="card">
+          <h2>Tabela m[i,j] — Custos Mínimos (PD)</h2>
+          <div id="table-section"></div>
+        </div>
+
+        <div class="card">
+          <h2>Resultado</h2>
+          <div id="result-section"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ════════════════════════════════════════
+       ABA: Introdução
+  ════════════════════════════════════════ -->
+  <section id="tab-introducao" class="tab-content">
+    <div class="placeholder-section">
+      <h2>Introdução</h2>
+      <p>
+        Esta aba deve conter a contextualização do problema MCM
+        (seções 1 e 2 do trabalho escrito).
+      </p>
+      <p>
+        Para preencher: edite <code>js/tabs/introducao.js</code>
+        e adicione HTML ao elemento <code>#tab-introducao</code>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       ABA: Teoria
+  ════════════════════════════════════════ -->
+  <section id="tab-teoria" class="tab-content">
+    <div class="placeholder-section">
+      <h2>Fundamentação Teórica</h2>
+      <p>
+        Esta aba deve conter a recorrência m[i,j], prova de subestrutura ótima,
+        subproblemas sobrepostos e pseudocódigos (seções 3 e 4 do trabalho).
+      </p>
+      <p>
+        Para fórmulas matemáticas, recomenda-se adicionar
+        <code>KaTeX</code> ou <code>MathJax</code> ao HTML e editar
+        <code>js/tabs/teoria.js</code>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       ABA: Complexidade
+  ════════════════════════════════════════ -->
+  <section id="tab-complexidade" class="tab-content">
+    <div class="placeholder-section">
+      <h2>Análise de Complexidade</h2>
+      <p>
+        Esta aba deve conter a tabela comparativa de complexidade de tempo e espaço
+        dos três algoritmos e o crescimento dos números de Catalão (seção 4.5).
+      </p>
+      <p>
+        Edite <code>js/tabs/complexidade.js</code> para adicionar o conteúdo.
+      </p>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       ABA: Gráficos Empíricos
+  ════════════════════════════════════════ -->
+  <section id="tab-graficos" class="tab-content">
+    <div class="placeholder-section">
+      <h2>Gráficos Empíricos</h2>
+      <p>
+        Esta aba deve exibir os 5 gráficos gerados pelo benchmark Python (seção 6 do trabalho):
+        crescimento exponencial da força bruta, PD vs. memoização, escala log-log,
+        comparação geral e razão T(n)/n³.
+      </p>
+      <p>
+        Sugestão: criar rota <code>GET /api/benchmark</code> no Flask
+        e renderizar com <code>Chart.js</code> (CDN já disponível abaixo).
+        Edite <code>js/tabs/graficos.js</code>.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Elias Pio · Marcos Valdecy · Bruno Ibiapina · Whuanderson</span>
+    <span>Prof. Francisco José de Araújo · PAA · ICEV 2026</span>
+  </footer>
+
+  <!-- Scripts (ordem importa: utils → tabs → main) -->
+  <script src="js/utils.js"></script>
+  <script src="js/tabs/demo.js"></script>
+  <script src="js/tabs/introducao.js"></script>
+  <script src="js/tabs/teoria.js"></script>
+  <script src="js/tabs/complexidade.js"></script>
+  <script src="js/tabs/graficos.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Chart.js — disponível para as abas que precisarem de gráficos -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+</body>
+</html>
