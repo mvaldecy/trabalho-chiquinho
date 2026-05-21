@@ -86,7 +86,10 @@ header .badge {
 
 /* ── Conteúdo das abas ── */
 .tab-content { display: none; flex: 1; padding: 2rem; max-width: 1100px; margin: 0 auto; width: 100%; }
-.tab-content.active { display: block; }
+.tab-content.active { display: flex; flex-direction: column; gap: 1.5rem; }
+
+/* A aba demo tem seu próprio layout interno (demo-grid), não precisamos de flex para ela */
+#tab-demo.active { display: block; }
 
 /* ── Placeholder ── */
 .placeholder-section {
@@ -355,4 +358,767 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* ═══════════════════════════════════════════════════
+   ESTILOS COMUNS — Abas de Conteúdo
+═══════════════════════════════════════════════════ */
+
+.intro-section-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 750px) {
+  .intro-section-grid { grid-template-columns: 1fr; }
+  .pseudocode-grid    { grid-template-columns: 1fr !important; }
+  .approach-grid-3    { grid-template-columns: 1fr !important; }
+}
+
+.card-section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.card-icon { font-size: 1rem; }
+
+.intro-text {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.info-box {
+  display: flex;
+  gap: 0.75rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 0.85rem 1rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-top: 1rem;
+  color: var(--text);
+}
+
+.info-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════════
+   ABA: INTRODUÇÃO
+═══════════════════════════════════════════════════ */
+
+/* Hero card */
+.intro-hero {
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, #1a1d27 0%, #1e2035 60%, #222449 100%);
+  border-color: var(--accent);
+  border-width: 1px;
+  text-align: center;
+}
+
+.intro-hero-inner { padding: 1rem 0.5rem; }
+
+.intro-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(108,99,255,0.2);
+  border: 1px solid rgba(108,99,255,0.4);
+  color: var(--accent);
+  padding: 0.25rem 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
+}
+
+.intro-title {
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.6rem;
+}
+
+.intro-sub {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto 1rem;
+  line-height: 1.7;
+}
+
+.intro-equation {
+  font-family: var(--mono);
+  font-size: 1.1rem;
+  color: var(--accent2);
+  margin-top: 0.5rem;
+}
+
+/* Matrix dims display */
+.matrix-dims-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+  padding: 1rem;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.matrix-dim-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  gap: 0.2rem;
+}
+
+.matrix-label {
+  font-family: var(--mono);
+  font-weight: 700;
+  color: var(--accent2);
+  font-size: 0.95rem;
+}
+
+.matrix-size {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.matrix-mult-sign {
+  font-size: 1.2rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Tabela de parentizações */
+.paren-table-wrap { overflow-x: auto; }
+
+.paren-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+.paren-table th {
+  background: var(--surface2);
+  color: var(--muted);
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  border: 1px solid var(--border);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+}
+
+.paren-row {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.paren-row td {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.paren-row:hover { background: var(--surface2); }
+.paren-row.selected { background: rgba(108,99,255,0.12); }
+.paren-row.paren-best { border-left: 3px solid var(--accent2); }
+
+.paren-num { font-weight: 600; color: var(--muted); text-align: center; }
+.paren-expr { font-family: var(--mono); font-size: 0.82rem; }
+.paren-cost { font-family: var(--mono); font-weight: 700; text-align: right; }
+.cost-best { color: var(--accent2); }
+
+.badge-best {
+  display: inline-block;
+  background: rgba(0,212,170,0.15);
+  border: 1px solid var(--accent2);
+  color: var(--accent2);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.paren-detail {
+  margin-top: 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  transition: all 0.2s;
+}
+
+.paren-detail.hidden { display: none; }
+
+.detail-title {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+  color: var(--accent2);
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+}
+
+.detail-steps { display: flex; flex-direction: column; gap: 0.5rem; }
+
+.detail-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.step-num {
+  min-width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--mono);
+}
+
+.detail-total { margin-top: 0.35rem; padding-top: 0.5rem; border-top: 1px solid var(--border); }
+.detail-total .step-num { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Catalão */
+.catalan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.catalan-item {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.7rem;
+  text-align: center;
+}
+
+.catalan-n {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+.catalan-val {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--danger);
+}
+
+.catalan-chart-wrap { margin-top: 0.5rem; }
+
+/* Cards de abordagem */
+.approach-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.approach-icon { font-size: 1.8rem; }
+
+.approach-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.approach-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.approach-complexity {
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+.approach-bf .approach-complexity  { color: var(--danger); }
+.approach-memo .approach-complexity { color: var(--warn); }
+.approach-pd .approach-complexity   { color: var(--accent2); }
+
+/* ═══════════════════════════════════════════════════
+   ABA: TEORIA
+═══════════════════════════════════════════════════ */
+
+.recurrence-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.recurrence-case { display: flex; align-items: flex-start; gap: 1rem; }
+
+.recurrence-cond {
+  min-width: 7rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  padding-top: 0.3rem;
+  font-family: var(--mono);
+  flex-shrink: 0;
+}
+
+.recurrence-formula { flex: 1; }
+
+.teoria-explain {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.explain-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.explain-item code {
+  background: var(--surface2);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--accent2);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Fórmula KaTeX inline dentro de explain-item (sem code tag) */
+.formula-code {
+  background: var(--surface2);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--accent2);
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.explain-item span { color: var(--muted); line-height: 1.6; }
+
+/* Teorema */
+.theorem-box {
+  background: linear-gradient(135deg, rgba(108,99,255,0.08), rgba(0,212,170,0.06));
+  border: 1px solid rgba(108,99,255,0.3);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin: 0.75rem 0;
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.theorem-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+/* Pseudocódigo */
+.pseudocode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.pseudocode {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.8;
+  color: var(--text);
+  white-space: pre;
+  overflow-x: auto;
+  margin-bottom: 0.75rem;
+}
+
+.pseudocode .kw  { color: var(--accent); font-weight: 700; }
+.pseudocode .cmt { color: var(--muted); font-style: italic; }
+
+.complexity-tag {
+  display: inline-block;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.8rem;
+  color: var(--accent2);
+  font-family: var(--mono);
+}
+
+/* Overlap visual */
+.overlap-visual { margin-top: 1rem; }
+
+.overlap-grid {
+  display: grid;
+  gap: 4px;
+  margin-top: 0.5rem;
+  width: fit-content;
+}
+
+.ov-cell {
+  width: 72px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-family: var(--mono);
+  border-radius: 5px;
+  border: 1px solid var(--border);
+}
+
+.ov-header { background: var(--surface2); color: var(--muted); font-weight: 700; border: none; }
+.ov-diag   { background: rgba(0,212,170,0.12); color: var(--accent2); border-color: rgba(0,212,170,0.3); }
+.ov-shared { background: rgba(255,179,71,0.12); color: var(--warn); border-color: rgba(255,179,71,0.35); cursor: default; }
+.ov-normal { background: rgba(108,99,255,0.1); color: var(--accent); border-color: rgba(108,99,255,0.3); }
+.ov-empty  { background: var(--bg); color: var(--muted); border-color: transparent; }
+
+/* Blocos de fórmula */
+.formula-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  overflow-x: auto;
+  margin: 0.75rem 0;
+}
+
+/* ═══════════════════════════════════════════════════
+   ABA: COMPLEXIDADE
+═══════════════════════════════════════════════════ */
+
+.comp-table-wrap { overflow-x: auto; }
+
+.comp-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.84rem;
+}
+
+.comp-table th {
+  background: var(--surface2);
+  color: var(--muted);
+  padding: 0.65rem 0.9rem;
+  text-align: left;
+  border: 1px solid var(--border);
+  font-weight: 600;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+}
+
+.comp-row td {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.comp-bf   { border-left: 3px solid var(--danger); }
+.comp-memo { border-left: 3px solid var(--warn); }
+.comp-pd   { border-left: 3px solid var(--accent2); }
+
+.algo-badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.badge-bf   { background: rgba(255,85,87,0.15); color: var(--danger); border: 1px solid rgba(255,85,87,0.3); }
+.badge-memo { background: rgba(255,179,71,0.15); color: var(--warn);   border: 1px solid rgba(255,179,71,0.3); }
+.badge-pd   { background: rgba(0,212,170,0.15);  color: var(--accent2);border: 1px solid rgba(0,212,170,0.3); }
+
+.comp-complexity { font-family: var(--mono); font-size: 0.85rem; white-space: nowrap; }
+
+.limit-tag {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: var(--mono);
+}
+
+.limit-bad { background: rgba(255,85,87,0.15); color: var(--danger); border: 1px solid rgba(255,85,87,0.3); }
+.limit-ok  { background: rgba(0,212,170,0.12); color: var(--accent2); border: 1px solid rgba(0,212,170,0.3); }
+
+/* Loop analysis */
+.loop-analysis {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.loop-row {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  font-size: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.loop-label { color: var(--muted); min-width: 14rem; flex-shrink: 0; }
+.loop-range { font-family: var(--mono); color: var(--text); }
+
+/* Grid 3 colunas */
+.approach-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.approach-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.formula-inline { margin: 0.25rem 0; }
+
+.approach-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.approach-list li {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.6;
+  padding-left: 0.85rem;
+  position: relative;
+}
+
+.approach-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+/* KaTeX override para tema escuro */
+.katex { color: var(--text); }
+.katex-display { overflow-x: auto; }
+
+/* ── Objetivos (Introdução) ── */
+.objectives-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+@media (max-width: 750px) {
+  .objectives-grid { grid-template-columns: 1fr; }
+}
+
+.obj-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.obj-num {
+  min-width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.01em;
+}
+
+/* ── Metodologia (Introdução) ── */
+.methodology-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.method-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+}
+
+.method-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+.method-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.25rem;
+}
+
+.method-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.method-desc code {
+  background: var(--bg);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--accent2);
+}
+
+/* ── Propriedades (Teoria) ── */
+.properties-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.85rem;
+  margin-top: 0.85rem;
+}
+
+@media (max-width: 750px) {
+  .properties-grid { grid-template-columns: 1fr; }
+}
+
+.prop-item {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+}
+
+.prop-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.4rem;
+}
+
+.prop-formula {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--accent2);
+  margin-bottom: 0.4rem;
+}
+
+.prop-desc {
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── Tabelas de exemplo com células especiais (Complexidade) ── */
+.example-table td {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  text-align: right;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.example-table th {
+  background: var(--surface2);
+  color: var(--muted);
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.example-table .row-header {
+  background: var(--surface2);
+  color: var(--muted);
+  font-weight: 700;
+  text-align: center;
+}
+
+.example-table .cell-empty {
+  color: var(--muted);
+  text-align: center;
+}
+
+.example-table .cell-highlight {
+  background: rgba(255,179,71,0.1);
+  color: var(--warn);
+}
+
+.example-table .cell-optimal {
+  background: rgba(0,212,170,0.15);
+  color: var(--accent2);
+  font-weight: 700;
 }
