@@ -53,13 +53,15 @@ function makeChart(id, type, data, extraOpts = {}) {
   return chart;
 }
 
-// ── Gráfico 1: Força Bruta — crescimento exponencial ──────────────────────
-function drawG1(bf) {
-  const ns    = bf.map((d) => d.n);
-  const times = bf.map((d) => d.time_ns / 1e6);   // ms
+// ── Gráfico 1: Força Bruta vs PD/Memo — mesmo range n=5..14 ───────────────
+function drawG1(bf, pd, memo) {
+  const ns      = bf.map((d) => d.n);
+  const bfTimes = bf.map((d) => d.time_ns / 1e3);   // µs
+  const pdSub   = pd.filter((d) => d.n <= 14).map((d) => d.time_ns / 1e3);
+  const moSub   = memo.filter((d) => d.n <= 14).map((d) => d.time_ns / 1e3);
 
-  // Curva de ajuste: c * k^n  (regressão linear em log)
-  const logY  = times.map(Math.log);
+  // Curva de ajuste exponencial para BF: c * k^n
+  const logY  = bfTimes.map(Math.log);
   const meanN = ns.reduce((a, b) => a + b) / ns.length;
   const meanL = logY.reduce((a, b) => a + b) / logY.length;
   const num   = ns.reduce((s, n, i) => s + (n - meanN) * (logY[i] - meanL), 0);
@@ -72,32 +74,34 @@ function drawG1(bf) {
   makeChart("g1", "line", {
     labels: ns,
     datasets: [
-      { label: "Força Bruta (medido)", data: times, borderColor: COLOR.bf, backgroundColor: "rgba(255,85,87,0.15)", tension: 0.3, pointRadius: 4 },
+      { label: "Força Bruta",           data: bfTimes, borderColor: COLOR.bf,   backgroundColor: "rgba(255,85,87,0.12)", tension: 0.3, pointRadius: 4 },
       { label: `Ajuste c·${base.toFixed(2)}ⁿ`, data: fit, borderColor: COLOR.fit, borderDash: [6, 3], pointRadius: 0, tension: 0.4 },
+      { label: "PD Bottom-Up",          data: pdSub,   borderColor: COLOR.pd,   backgroundColor: "rgba(0,212,170,0.1)",  tension: 0.3, pointRadius: 3 },
+      { label: "Memoização",            data: moSub,   borderColor: COLOR.memo, backgroundColor: "rgba(255,179,71,0.1)", tension: 0.3, pointRadius: 3, borderDash: [4, 2] },
     ],
   }, {
-    plugins: { title: { display: true, text: "Gráfico 1 — Força Bruta: Crescimento Exponencial", color: "#e8eaf0" } },
+    plugins: { title: { display: true, text: "Gráfico 1 — Força Bruta vs PD/Memo (n = 5 até 14)", color: "#e8eaf0" } },
     scales: {
-      x: { title: { text: "n (número de matrizes)" } },
-      y: { title: { text: "Tempo (ms)" } },
+      x: { title: { display: true, text: "n — quantidade de matrizes na cadeia" } },
+      y: { title: { display: true, text: "Tempo (µs)" } },
     },
   });
 }
 
-// ── Gráfico 2: PD vs Memoização ────────────────────────────────────────────
+// ── Gráfico 2: PD vs Memoização em escala maior — n=5..50 ─────────────────
 function drawG2(pd, memo) {
   const ns = pd.map((d) => d.n);
   makeChart("g2", "line", {
     labels: ns,
     datasets: [
-      { label: "PD Bottom-Up",        data: pd.map((d) => d.time_ns / 1e3),   borderColor: COLOR.pd,   backgroundColor: "rgba(0,212,170,0.1)", tension: 0.3, pointRadius: 2 },
+      { label: "PD Bottom-Up",          data: pd.map((d)   => d.time_ns / 1e3), borderColor: COLOR.pd,   backgroundColor: "rgba(0,212,170,0.1)", tension: 0.3, pointRadius: 2 },
       { label: "Memoização (top-down)", data: memo.map((d) => d.time_ns / 1e3), borderColor: COLOR.memo, backgroundColor: "rgba(255,179,71,0.1)", tension: 0.3, pointRadius: 2 },
     ],
   }, {
-    plugins: { title: { display: true, text: "Gráfico 2 — PD vs Memoização: ambas O(n³)", color: "#e8eaf0" } },
+    plugins: { title: { display: true, text: "Gráfico 2 — PD vs Memoização: ambas O(n³), escala n = 5 até 50", color: "#e8eaf0" } },
     scales: {
-      x: { title: { text: "n (número de matrizes)" } },
-      y: { title: { text: "Tempo (µs)" } },
+      x: { title: { display: true, text: "n — quantidade de matrizes na cadeia" } },
+      y: { title: { display: true, text: "Tempo (µs)" } },
     },
   });
 }
@@ -149,8 +153,8 @@ function drawG4(pd, memo, bf) {
       legend: { labels: { color: "#e8eaf0" } },
     },
     scales: {
-      x: { title: { text: "n" }, ticks: { color: "#7a7f9a" }, grid: { color: "#2e3248" } },
-      y: { type: "logarithmic", title: { text: "Tempo µs (escala log)" }, ticks: { color: "#7a7f9a" }, grid: { color: "#2e3248" } },
+      x: { title: { display: true, text: "n — quantidade de matrizes na cadeia (BF limitado a n ≤ 14)" }, ticks: { color: "#7a7f9a" }, grid: { color: "#2e3248" } },
+      y: { type: "logarithmic", title: { display: true, text: "Tempo em µs — escala logarítmica (cada divisória = 10×)" }, ticks: { color: "#7a7f9a" }, grid: { color: "#2e3248" } },
     },
   });
 }
@@ -171,8 +175,8 @@ function drawG5(pd) {
   }, {
     plugins: { title: { display: true, text: "Gráfico 5 — T(n)/n³: Convergência para Constante Assintótica", color: "#e8eaf0" } },
     scales: {
-      x: { title: { text: "n" } },
-      y: { title: { text: "T(n)/n³ (ns/op)" } },
+      x: { title: { display: true, text: "n — quantidade de matrizes na cadeia" } },
+      y: { title: { display: true, text: "T(n) ÷ n³ (ns por operação) — converge para constante se Θ(n³)" } },
     },
   });
 }
@@ -184,20 +188,18 @@ function initGraficos() {
     <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;">
       <button id="btn-benchmark" class="btn-primary">Rodar Benchmark</button>
       <span id="bench-status" style="font-size:0.85rem;color:var(--muted)">
-        Roda os 3 algoritmos para n=2..50 (BF limitado a n≤14) com semente 42.
+        G1: os 3 algoritmos até n=14 &nbsp;|&nbsp; G2: PD e Memo até n=50 &nbsp;|&nbsp; G3–G5: escala e constante assintótica. Pode levar ~20s.
       </span>
     </div>
     <div id="bench-error" class="error-msg"></div>
 
     <div id="charts-grid" style="display:none;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
-        <div class="card"><canvas id="g1"></canvas></div>
-        <div class="card"><canvas id="g2"></canvas></div>
-        <div class="card"><canvas id="g3"></canvas></div>
-        <div class="card"><canvas id="g4"></canvas></div>
-      </div>
-      <div class="card" style="margin-bottom:1.5rem;">
-        <canvas id="g5" style="max-height:280px;"></canvas>
+      <div style="display:flex;flex-direction:column;gap:1.5rem;">
+        <div class="card"><canvas id="g1" style="max-height:340px;"></canvas></div>
+        <div class="card"><canvas id="g2" style="max-height:340px;"></canvas></div>
+        <div class="card"><canvas id="g3" style="max-height:340px;"></canvas></div>
+        <div class="card"><canvas id="g4" style="max-height:340px;"></canvas></div>
+        <div class="card"><canvas id="g5" style="max-height:340px;"></canvas></div>
       </div>
     </div>
   `;
@@ -226,18 +228,14 @@ async function runBenchmark() {
     const { pd, memo, bf } = json.data;
 
     grid.style.display = "block";
-    drawG1(bf);
+    drawG1(bf, pd, memo);
     drawG2(pd, memo);
     drawG3(pd, memo);
     drawG4(pd, memo, bf);
     drawG5(pd);
 
     const cfg = json.data.config;
-    status.innerHTML = `
-      <span style="color:var(--accent2)">✓ Concluído</span>
-      &nbsp;—&nbsp; n=2..${cfg.max_n} (PD/Memo) &nbsp;|&nbsp; n=2..${cfg.max_bf} (BF)
-      &nbsp;|&nbsp; semente ${cfg.seed} &nbsp;|&nbsp; ${cfg.reps} repetição(ões) por ponto
-    `;
+    status.innerHTML = `<span style="color:var(--accent2)">✓ Concluído</span> &nbsp;—&nbsp; semente ${cfg.seed} &nbsp;|&nbsp; PD/Memo n=${cfg.min_n}..${cfg.max_n} &nbsp;|&nbsp; BF n=${cfg.min_n}..${cfg.max_bf}`;
   } catch (err) {
     errEl.textContent = `Erro: ${err.message}. Verifique se o servidor está rodando (./run.sh).`;
     status.textContent = "";

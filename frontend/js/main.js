@@ -32,6 +32,5 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => activateTab(btn.dataset.tab));
   });
 
-  // Inicia na aba Demo
-  activateTab("demo");
+  activateTab("introducao");
 });

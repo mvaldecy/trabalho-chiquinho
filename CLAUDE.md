@@ -1,6 +1,6 @@
 # MCM — Multiplicação Ótima de Matrizes
 **Trabalho Final de PAA · ICEV 2026**
-Alunos: Elias Pio | Marcos Valdecy | Bruno Ibiapina | Whuanderson
+Alunos: Elias Pio | Marcos Valdecy | Whuanderson
 Professor: Francisco José de Araújo
 
 ---
