@@ -60,4 +60,4 @@ def serve_frontend(path):
 if __name__ == "__main__":
     print("\n  MCM — Multiplicação Ótima de Matrizes")
     print("  Acesse: http://localhost:5050\n")
-    app.run(debug=True, port=5050)
+    app.run(host="0.0.0.0", port=5050, debug=False)

@@ -8,13 +8,22 @@ Professor: Francisco José de Araújo
 
 ## Como rodar
 
+### Opção 1 — Script direto (requer Python 3)
+
 ```bash
 ./run.sh
 ```
 
-Isso instala as dependências, inicia o servidor e abre o navegador automaticamente em `http://localhost:5050`.
+Instala as dependências, inicia o servidor e abre o navegador em `http://localhost:5050`.
 
-> **Requisito:** Python 3 com pip instalado.
+### Opção 2 — Docker (recomendado para apresentação)
+
+```bash
+docker build -t mcm-app .
+docker run -p 5050:5050 mcm-app
+```
+
+Depois abra `http://localhost:5050` no navegador.
 
 ---
 
@@ -23,12 +32,12 @@ Isso instala as dependências, inicia o servidor e abre o navegador automaticame
 Uma aplicação web interativa para demonstrar o problema da **Multiplicação Ótima de Matrizes (MCM)** na apresentação.
 
 - Digite as dimensões das matrizes (ou use os exemplos prontos)
-- Clique **Executar**
-- Veja ao vivo a diferença de velocidade entre Força Bruta, Memoização e PD Bottom-Up
-- Explore a tabela m[i,j] e a parentização ótima
+- Clique **Executar** e veja ao vivo a diferença de velocidade entre Força Bruta, Memoização e PD Bottom-Up
+- Veja a tabela m[i,j] e a parentização ótima
+- Aba **Benchmark**: roda os 3 algoritmos para vários tamanhos de n e exibe 5 gráficos empíricos
 
 ---
 
 ## Para o próximo participante
 
-Leia o **[CLAUDE.md](CLAUDE.md)** — ele explica a estrutura completa do projeto, o que já está implementado e como adicionar conteúdo nas abas que estão com placeholder (Introdução, Teoria, Complexidade, Gráficos).
+Leia o **[CLAUDE.md](CLAUDE.md)** — explica a estrutura completa, o que já está implementado e como adicionar conteúdo nas abas placeholder (Introdução, Teoria, Complexidade).

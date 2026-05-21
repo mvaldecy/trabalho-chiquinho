@@ -1,0 +1,8 @@
+__pycache__
+*.pyc
+*.pyo
+.git
+*.docx
+README.md
+CLAUDE.md
+run.sh
